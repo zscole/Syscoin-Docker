@@ -1,0 +1,32 @@
+version: '3'
+services:
+  miner:
+    build: .
+    ports:
+      - "18400:18444"
+      - "18500:18443"
+    expose: 
+      - "18443"
+      - "8368"
+      - "8369"
+    command: [ "-addnode=node1:18443", "-addnode=node2:18443"]
+  node1:
+    build: .
+    ports:
+      - "18401:18444"
+      - "18501:18443"
+    expose: 
+      - "18443"
+      - "8368"
+      - "8369"
+    command: [ "-addnode=miner:18443", "-addnode=node2:18443"]
+  node2:
+    build: .
+    ports:
+      - "18402:18444"
+      - "18502:18443"
+    expose: 
+      - "18443"
+      - "8368"
+      - "8369"
+    command: [ "-addnode=node1:18443", "-addnode=miner:18443"]
